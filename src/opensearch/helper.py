@@ -48,7 +48,13 @@ def search_index(args: SearchIndexArgs) -> json:
     from .client import initialize_client
 
     client = initialize_client(args)
-    response = client.search(index=args.index, body=args.query)
+    
+    # Set default size to 100 if not present in query body
+    query = args.query.copy() if isinstance(args.query, dict) else args.query
+    if isinstance(query, dict) and 'size' not in query:
+        query['size'] = 100
+    
+    response = client.search(index=args.index, body=query)
     return response
 
 
