@@ -51,8 +51,8 @@ def search_index(args: SearchIndexArgs) -> json:
     
     # Set default size to 100 if not present in query body
     query = args.query.copy() if isinstance(args.query, dict) else args.query
-    if isinstance(query, dict) and 'size' not in query:
-        query['size'] = 100
+    if isinstance(query, dict) and 'size' in query:
+        query['size'] = min(100, query['size'])
     
     response = client.search(index=args.index, body=query)
     return response
