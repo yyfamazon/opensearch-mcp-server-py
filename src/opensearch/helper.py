@@ -54,6 +54,11 @@ async def search_index(args: SearchIndexArgs) -> json:
 
     async with get_opensearch_client(args) as client:
         query = normalize_scientific_notation(args.query)
+        
+        # Limit size to maximum of 100
+        effective_size = min(args.size, 100) if args.size else 10
+        query['size'] = effective_size
+        
         response = await client.search(index=args.index, body=query)
         return response
 

@@ -81,6 +81,7 @@ class SearchIndexArgs(baseToolArgs):
     index: str = Field(description='The name of the index to search in')
     query: Any = Field(description='The search query in OpenSearch query DSL format')
     format: str = Field(default='json', description='Output format: "json" or "csv"')
+    size: Optional[int] = Field(default=10, description='Number of search results to return. Maximum allowed is 100.')
 
 
 class GetShardsArgs(baseToolArgs):
